@@ -64,7 +64,9 @@ func (s server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func main() {
     s := server{NewLog(128)}
-	go dns.ListenAndServe(":53", "udp", s)
+	go func() {
+        log.Fatal(dns.ListenAndServe(":53", "udp", s))
+    }()
 
     log.Fatal(http.ListenAndServe(":7000", s))
 }
